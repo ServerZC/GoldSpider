@@ -1,0 +1,25 @@
+server:
+  port: 10000
+  servlet:
+    context-path: /manager
+
+
+#环境选择配置
+spring:
+  profiles:
+    active: pro
+
+#系统信息
+cn:
+  wolfshadow:
+    system:
+      swager-config:
+        project-name: GoldSpider-管理模块
+        description: 负责后台数据管理
+        version: 1.0-SNAPSHOT
+        service-terms: http://www.wolfshadow.cn
+        author: WolfShadow
+        link-text: WolfShadow主页
+        website: http://www.wolfshadow.cn
+      quartz:
+        task-create-seconds: 600

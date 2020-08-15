@@ -1,0 +1,10 @@
+#数据连接
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: gold_spider
+      username: wolfshadow
+      password: wolfshadow
+
