@@ -1,5 +1,6 @@
 package cn.wolfshadow.gs.digger.core;
 
+import cn.wolfshadow.gs.common.util.FileUtil;
 import cn.wolfshadow.gs.common.util.HttpUtil;
 import lombok.SneakyThrows;
 import org.springframework.util.StringUtils;
@@ -35,7 +36,7 @@ public class GoldSpider {
         File file = new File(savePath);
         if (!file.exists()) file.mkdirs();
         UUID uuid = UUID.randomUUID();
-        String path = savePath + (savePath.endsWith("/")||savePath.endsWith("\\") ? "" : "/") + uuid +".html";
+        String path = FileUtil.getFilePath(savePath,uuid+".html");
         file = new File(path);
         //FileInputStream fis = new FileInputStream(file);
 
