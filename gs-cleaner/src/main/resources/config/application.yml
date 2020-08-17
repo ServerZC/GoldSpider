@@ -22,4 +22,6 @@ cn:
         link-text: WolfShadow主页
         website: http://www.wolfshadow.cn
       quartz:
-        task-create-seconds: 600
+        start-clean-seconds: 60
+        file-count: 10
+        html-save-path: D:/File/gold_spider/html
