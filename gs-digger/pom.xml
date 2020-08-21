@@ -13,9 +13,13 @@
     <name>【矿工】</name>
     <description>负责数据获取</description>
 
-    <profiles>
 
-    </profiles>
+
+    <properties>
+        <webmagic.version>0.7.3</webmagic.version>
+        <jvppeteer.version>1.0.6</jvppeteer.version>
+
+    </properties>
 
     <dependencies>
         <dependency>
@@ -23,6 +27,27 @@
             <artifactId>gs-common</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/io.github.fanyong920/jvppeteer -->
+        <dependency>
+            <groupId>io.github.fanyong920</groupId>
+            <artifactId>jvppeteer</artifactId>
+            <version>${jvppeteer.version}</version>
+        </dependency>
+
+
+        <!--<dependency>
+            <groupId>us.codecraft</groupId>
+            <artifactId>webmagic-core</artifactId>
+            <version>${webmagic.version}</version>
+        </dependency>
+        &lt;!&ndash; https://mvnrepository.com/artifact/us.codecraft/webmagic-extension &ndash;&gt;
+        <dependency>
+            <groupId>us.codecraft</groupId>
+            <artifactId>webmagic-extension</artifactId>
+            <version>${webmagic.version}</version>
+        </dependency>-->
 
     </dependencies>
 

@@ -23,5 +23,6 @@ cn:
         website: http://www.wolfshadow.cn
       quartz:
         start-clean-seconds: 60
-        file-count: 10
+        file-batch-count: 10
         html-save-path: D:/File/gold_spider/html
+        excel-save-path: D:/File/gold_spider/excel

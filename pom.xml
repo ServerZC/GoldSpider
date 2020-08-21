@@ -37,6 +37,7 @@
         <fastjson.version>1.2.73</fastjson.version>
         <httpclient.version>4.5.12</httpclient.version>
         <jsoup.version>1.13.1</jsoup.version>
+        <poi.version>4.1.2</poi.version>
     </properties>
 
     <dependencies>
@@ -97,8 +98,6 @@
             <version>${swagger2.version}</version>
         </dependency>
 
-
-
         <!-- mongo -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -142,6 +141,26 @@
             <artifactId>jsoup</artifactId>
             <version>${jsoup.version}</version>
         </dependency>
+
+        <!--解析excel-->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>${poi.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${poi.version}</version>
+        </dependency>
+
+        <!-- test -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
 
 
 

@@ -14,12 +14,12 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 
 @Component
-public class DataCleanJob extends QuartzJobBean {
+public class ExcelCleanJob extends QuartzJobBean {
 
-    @Value("${cn.wolfshadow.system.quartz.file-count}")
-    private int fileCount = 1;//一次处理的文件数目，默认为1
-    @Value("${cn.wolfshadow.system.quartz.html-save-path}")
-    private String htmlSavePath;
+    @Value("${cn.wolfshadow.system.quartz.file-batch-count}")
+    private int fileBatchCount = 1;//一次处理的文件批数(相同股票代码的为同一批次)，默认为1
+    @Value("${cn.wolfshadow.system.quartz.excel-save-path}")
+    private String excelSavePath;
 
 
     @Autowired
@@ -27,15 +27,12 @@ public class DataCleanJob extends QuartzJobBean {
 
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        //System.out.println("task creating...");
+        //System.out.println("ExcelCleanJob task creating...");
         startJob();
     }
 
     private void startJob(){
         DataCleaner dataCleaner = DataCleaner.getInstance();
-        if (dataCleaner.isWorking()) return;
-
-        dataCleaner.work(htmlSavePath,fileCount);
-
+        dataCleaner.cleanExcel(excelSavePath,fileBatchCount);
     }
 }
