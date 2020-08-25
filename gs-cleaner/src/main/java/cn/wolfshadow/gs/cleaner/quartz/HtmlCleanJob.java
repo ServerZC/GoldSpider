@@ -17,9 +17,11 @@ public class HtmlCleanJob extends QuartzJobBean {
     @Value("${cn.wolfshadow.system.quartz.html-save-path}")
     private String htmlSavePath;
 
-
     @Autowired
     private DbStockValueAnalysisService stockValueAnalysisService;
+    @Autowired
+    private DataCleaner dataCleaner;
+
 
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
@@ -28,9 +30,6 @@ public class HtmlCleanJob extends QuartzJobBean {
     }
 
     private void startJob(){
-        DataCleaner dataCleaner = DataCleaner.getInstance();
-        //if (dataCleaner.isWorking()) return;
-
         dataCleaner.cleanHtml(htmlSavePath,fileBatchCount);
 
     }

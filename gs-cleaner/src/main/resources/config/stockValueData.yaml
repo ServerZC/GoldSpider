@@ -1,32 +1,3 @@
-server:
-  port: 10020
-  servlet:
-    context-path: /cleaner
-
-
-#环境选择配置
-spring:
-  profiles:
-    active: pro
-
-#系统信息
-cn:
-  wolfshadow:
-    system:
-      swager-config:
-        project-name: GoldSpider-数据清洗模块
-        description: 负责从html文件中清洗需要的数据
-        version: 1.0-SNAPSHOT
-        service-terms: http://www.wolfshadow.cn
-        author: WolfShadow
-        link-text: WolfShadow主页
-        website: http://www.wolfshadow.cn
-      quartz:
-        start-clean-seconds: 60
-        file-batch-count: 10
-        html-save-path: D:/File/gold_spider/html
-        excel-save-path: D:/File/gold_spider/excel
-
 #从Excel文件中需要解析的数据配置
 excle:
   data:
@@ -54,4 +25,3 @@ excle:
       file: debt_year
       #需要获取的关键指标
       receiveable: 应收账款(元)
-

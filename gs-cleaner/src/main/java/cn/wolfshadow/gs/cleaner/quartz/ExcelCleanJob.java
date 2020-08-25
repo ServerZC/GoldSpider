@@ -16,6 +16,9 @@ import java.util.List;
 @Component
 public class ExcelCleanJob extends QuartzJobBean {
 
+    @Autowired
+    private DataCleaner dataCleaner;
+
     @Value("${cn.wolfshadow.system.quartz.file-batch-count}")
     private int fileBatchCount = 1;//一次处理的文件批数(相同股票代码的为同一批次)，默认为1
     @Value("${cn.wolfshadow.system.quartz.excel-save-path}")
@@ -32,7 +35,6 @@ public class ExcelCleanJob extends QuartzJobBean {
     }
 
     private void startJob(){
-        DataCleaner dataCleaner = DataCleaner.getInstance();
         dataCleaner.cleanExcel(excelSavePath,fileBatchCount);
     }
 }

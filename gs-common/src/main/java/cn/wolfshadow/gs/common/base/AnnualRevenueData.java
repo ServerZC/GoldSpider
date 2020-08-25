@@ -12,7 +12,11 @@ public class AnnualRevenueData {
     private double revenue;//营收（亿）
     private int revenueIncrease;//营收增长
     private int grossProfitMargin;//销售毛利率
+    private double retainedProfits; //净利润(元)
+    private int retainedProfitsIncrease; //净利润同比增长率
     private double receiveable;//应收账款
     private int receiveableRadio;//账款比例
     private double researchFee;//研发费用
+
+
 }
