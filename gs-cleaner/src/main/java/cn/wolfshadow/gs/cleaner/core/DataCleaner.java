@@ -10,6 +10,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,6 +28,9 @@ import java.util.*;
 public class DataCleaner {
 
     public static final int PROCESS_FILE_MAX = 10;//一次处理文件的最大数目
+    private final Logger logger = LoggerFactory.getLogger(DataCleaner.class);
+
+    private Map<String, Set<File>> removeFileTemp = new HashMap<>();//预删除文件
 
     @Autowired
     private ExcelDataConfig excelDataConfig;
@@ -106,6 +111,10 @@ public class DataCleaner {
             File file3 = FileUtil.getFile(directory,debtYear);
             Map<String, Map<String, String>> content3= ExcelUtil.getContent(file3, startRowNum);
 
+            addRemoveFile(key,file1);
+            addRemoveFile(key,file2);
+            addRemoveFile(key,file3);
+
             int numLine = excelDataConfig.getNumLine();//获取数据列数
             ExcelDataConfig.Main main = excelDataConfig.getMain();
             ExcelDataConfig.Benefit benefit = excelDataConfig.getBenefit();
@@ -170,8 +179,7 @@ public class DataCleaner {
                 try {
                     data.setResearchFee(Double.parseDouble(value1));
                 }catch (Exception e){
-                    //todo 日志输出
-                    e.printStackTrace();
+                    logger.error("研发费用数据转换出错！股票代码：{}，年度：{}，数值：{}",key,entry1.getKey(),value1);
                 }finally {
                     temp ++;
                     if (temp == numLine) break;
@@ -196,7 +204,7 @@ public class DataCleaner {
                     if (temp == numLine) break;
                 }
             }
-
+            entity.setAnnualAnalysisData(datas);
             result.add(entity);
             counter ++;
             if (counter == count) break;
@@ -204,5 +212,19 @@ public class DataCleaner {
         return result;
     }
 
+    public void addRemoveFile(String stockCode, File file){
+        Set<File> files = removeFileTemp.get(stockCode);
+        if(files == null) files = new HashSet<>();
+        files.add(file);
+        removeFileTemp.put(stockCode,files);
+    }
+    public void removeFile(String stockCode){
+        Set<File> files = removeFileTemp.get(stockCode);
+        if (files != null){
+            for(File file : files){
+                file.delete();
+            }
+        }
+    }
 
 }

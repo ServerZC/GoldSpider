@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -30,6 +31,16 @@ public class DbStockValueAnalysisServiceImpl extends MongoDbOperator<StockValueA
             return super.insert(data,mongoTemplate);
         } catch (IllegalAccessException e) {
             return  null;
+        }
+    }
+
+    @Override
+    @Transactional
+    public int insertBatch(List<StockValueAnalysisEntity> taskStocks){
+        try {
+            return super.insertBatch(taskStocks,mongoTemplate);
+        } catch (IllegalAccessException e) {
+            return  0;
         }
     }
 
