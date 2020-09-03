@@ -3,25 +3,21 @@ package cn.wolfshadow.gs.cleaner.quartz;
 import cn.wolfshadow.gs.cleaner.core.DataCleaner;
 import cn.wolfshadow.gs.cleaner.service.DbStockValueAnalysisService;
 import cn.wolfshadow.gs.common.entity.StockValueAnalysisEntity;
-import cn.wolfshadow.gs.common.entity.TaskListEntity;
+import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.Trigger;
 import org.quartz.TriggerKey;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
 
+@Slf4j
 @Component
 public class ExcelCleanJob extends QuartzJobBean {
-
-    private Logger logger = LoggerFactory.getLogger(ExcelCleanJob.class);
 
     @Autowired
     private DataCleaner dataCleaner;
@@ -41,7 +37,7 @@ public class ExcelCleanJob extends QuartzJobBean {
         String group = key.getGroup();
         String name = key.getName();
         startJob();
-        logger.info("ExcelCleanJob task started, trigger group={}, name={}",group,name);
+        log.info("ExcelCleanJob task started, trigger group={}, name={}",group,name);
     }
 
     private void startJob(){

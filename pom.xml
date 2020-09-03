@@ -24,6 +24,7 @@
         <module>gs-manager</module>
         <module>gs-digger</module>
         <module>gs-cleaner</module>
+        <module>gs-centralBankMoney</module>
     </modules>
 
     <properties>

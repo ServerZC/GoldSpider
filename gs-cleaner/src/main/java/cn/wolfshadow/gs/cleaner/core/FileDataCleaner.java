@@ -7,8 +7,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.io.File;
-import java.util.List;
-import java.util.Map;
 
 @Component
 public class FileDataCleaner {

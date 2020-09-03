@@ -1,7 +1,7 @@
 package cn.wolfshadow.gs.cleaner.service.impl;
 
-import cn.wolfshadow.gs.cleaner.service.DbStockValueAnalysisService;
-import cn.wolfshadow.gs.common.entity.StockValueAnalysisEntity;
+import cn.wolfshadow.gs.cleaner.service.DbWaterLogService;
+import cn.wolfshadow.gs.common.entity.WaterLog;
 import cn.wolfshadow.gs.common.service.impl.MongoDbOperator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -14,14 +14,14 @@ import java.util.List;
  * 股票价值分析实现类
  */
 @Service
-public class DbStockValueAnalysisServiceImpl extends MongoDbOperator<StockValueAnalysisEntity> implements DbStockValueAnalysisService {
+public class DbWaterLogServiceImpl extends MongoDbOperator<WaterLog> implements DbWaterLogService {
 
     @Autowired
     private MongoTemplate mongoTemplate;
 
 
     @Override
-    public StockValueAnalysisEntity insert(StockValueAnalysisEntity data) {
+    public WaterLog insert(WaterLog data) {
         try {
             return super.insert(data,mongoTemplate);
         } catch (IllegalAccessException e) {
@@ -31,7 +31,7 @@ public class DbStockValueAnalysisServiceImpl extends MongoDbOperator<StockValueA
 
     @Override
     @Transactional
-    public int insertBatch(List<StockValueAnalysisEntity> taskStocks){
+    public int insertBatch(List<WaterLog> taskStocks){
         try {
             return super.insertBatch(taskStocks,mongoTemplate);
         } catch (IllegalAccessException e) {
@@ -40,7 +40,7 @@ public class DbStockValueAnalysisServiceImpl extends MongoDbOperator<StockValueA
     }
 
     @Override
-    public boolean update(StockValueAnalysisEntity data) {
+    public boolean update(WaterLog data) {
         try {
             return super.update(data,mongoTemplate);
         } catch (IllegalAccessException e) {
@@ -49,17 +49,17 @@ public class DbStockValueAnalysisServiceImpl extends MongoDbOperator<StockValueA
     }
 
     @Override
-    public boolean delete(StockValueAnalysisEntity data) {
+    public boolean delete(WaterLog data) {
         return false;
     }
 
     @Override
-    public StockValueAnalysisEntity get(String pk) {
+    public WaterLog get(String pk) {
         return null;
     }
 
     @Override
-    public List<StockValueAnalysisEntity> list(StockValueAnalysisEntity condition) {
+    public List<WaterLog> list(WaterLog condition) {
         return null;
     }
 

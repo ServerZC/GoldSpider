@@ -6,7 +6,10 @@ import cn.wolfshadow.gs.common.service.impl.MongoDbOperator;
 import cn.wolfshadow.gs.common.util.DateUtil;
 import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,6 +62,16 @@ public class DbWaterLogServiceImpl extends MongoDbOperator<WaterLog> implements 
         insert(waterLog);
 
         return waterLog;
+    }
+
+    @Override
+    public WaterLog getNewestOne() {
+        Query query = new Query();
+        query.with(Sort.by(Sort.Order.desc("noticeTime")));
+        query.limit(1);
+        List<WaterLog> list = mongoTemplate.find(query, WaterLog.class);
+        if (list.isEmpty()) return new WaterLog();
+        return list.get(0);
     }
 
     @Override
