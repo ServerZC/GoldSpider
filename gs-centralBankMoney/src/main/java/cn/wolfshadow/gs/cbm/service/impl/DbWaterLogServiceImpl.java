@@ -4,15 +4,17 @@ import cn.wolfshadow.gs.cbm.service.DbWaterLogService;
 import cn.wolfshadow.gs.common.entity.WaterLog;
 import cn.wolfshadow.gs.common.service.impl.MongoDbOperator;
 import cn.wolfshadow.gs.common.util.DateUtil;
-import org.jsoup.nodes.Element;
+import cn.wolfshadow.gs.common.util.Md5Util;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +22,7 @@ import java.util.List;
  * 股票价值分析实现类
  */
 @Service
+@Slf4j
 public class DbWaterLogServiceImpl extends MongoDbOperator<WaterLog> implements DbWaterLogService {
 
     @Autowired
@@ -29,6 +32,7 @@ public class DbWaterLogServiceImpl extends MongoDbOperator<WaterLog> implements 
     @Override
     public WaterLog insert(WaterLog data) {
         try {
+            setMd5(data);
             return super.insert(data,mongoTemplate);
         } catch (IllegalAccessException e) {
             return  null;
@@ -39,6 +43,7 @@ public class DbWaterLogServiceImpl extends MongoDbOperator<WaterLog> implements 
     @Transactional
     public int insertBatch(List<WaterLog> taskStocks){
         try {
+            setMd5(taskStocks);
             return super.insertBatch(taskStocks,mongoTemplate);
         } catch (IllegalAccessException e) {
             return  0;
@@ -51,7 +56,7 @@ public class DbWaterLogServiceImpl extends MongoDbOperator<WaterLog> implements 
         waterLog.setTitle(title);
         Date date = DateUtil.toDate(noticeTime);
         waterLog.setNoticeTime(date.getTime());
-        waterLog.setDate(DateUtil.getDateStr(date,DateUtil.YYYY_MM_DD));
+        waterLog.setNoticeDate(DateUtil.getDateStr(date,DateUtil.YYYY_MM_DD));
         waterLog.setMethod(method);
         waterLog.setContent(content);
         waterLog.setWater(water);
@@ -72,6 +77,25 @@ public class DbWaterLogServiceImpl extends MongoDbOperator<WaterLog> implements 
         List<WaterLog> list = mongoTemplate.find(query, WaterLog.class);
         if (list.isEmpty()) return new WaterLog();
         return list.get(0);
+    }
+
+    @Override
+    public int sumWaterNow(long now) {
+        Query query = new Query(Criteria.where("endTime").gt(now));
+        List<WaterLog> waterLogs = mongoTemplate.find(query, WaterLog.class);
+        if (waterLogs == null || waterLogs.isEmpty()) return 0;
+        int total = 0;
+        for(WaterLog waterLog : waterLogs){
+            int water = waterLog.getWater();
+            int method = waterLog.getMethod();
+            //放水方式：-2，正回购；-1，发债；0，逆回购；1，中期借贷便利（MLF）
+            if (method == 0 || method == 1){
+                total += water;
+            }else{
+                total -= water;
+            }
+        }
+        return total;
     }
 
     @Override
@@ -97,6 +121,40 @@ public class DbWaterLogServiceImpl extends MongoDbOperator<WaterLog> implements 
     public List<WaterLog> list(WaterLog condition) {
         return null;
     }
+
+
+    /**
+     * @Description 获取当天央行公告
+     * @Author wolfshadow.cn
+     * @Date  2020/9/16 16:24
+     * @Param [dateStr]
+     * @return java.util.List<cn.wolfshadow.gs.common.entity.WaterLog>
+     */
+
+    @Override
+    public List<WaterLog> listTodayNotice(String dateStr){
+        Query query = new Query(Criteria.where("noticeDate").is(dateStr));
+        List<WaterLog> waterLogs = mongoTemplate.find(query, WaterLog.class);
+        return waterLogs;
+    }
+
+
+    /**
+     * @Description 获取当天到期的公告
+     * @Author wolfshadow.cn
+     * @Date  2020/9/16 16:24
+     * @Param [dateStr]
+     * @return java.util.List<cn.wolfshadow.gs.common.entity.WaterLog>
+     */
+
+    @Override
+    public List<WaterLog> listTodayExpireNotice(String dateStr){
+        Query query = new Query(Criteria.where("endDate").is(dateStr));
+        List<WaterLog> waterLogs = mongoTemplate.find(query, WaterLog.class);
+        return waterLogs;
+    }
+
+
 
     /**
      * @Description 转换期限、资金数据
@@ -129,6 +187,24 @@ public class DbWaterLogServiceImpl extends MongoDbOperator<WaterLog> implements 
         }else {
             waterLog.setInterestRate(text);
         }
+    }
+
+    private void setMd5(WaterLog waterLog){
+        String noticeDate = waterLog.getNoticeDate();
+        int method = waterLog.getMethod();
+        int water = waterLog.getWater();
+        String timeLimit = waterLog.getTimeLimit();
+        String interestRate = waterLog.getInterestRate();
+        String md5 = null;
+        try {
+            md5 = Md5Util.md5(noticeDate+method+water+timeLimit+interestRate);
+        } catch (NoSuchAlgorithmException e) {
+            log.error("md5 error! str");
+        }
+        waterLog.setMd5(md5);
+    }
+    private void setMd5(List<WaterLog> logs){
+        for(WaterLog log : logs) setMd5(log);
     }
 
 }

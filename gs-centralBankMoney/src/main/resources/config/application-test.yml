@@ -8,3 +8,14 @@ spring:
       username: wolfshadow
       password: wolfshadow
 
+aliyun:
+  sms:
+    region-id: cn-hangzhou
+    access-key-id: test
+    access-secret: test
+    sys-domain: dysmsapi.aliyuncs.com
+    sys-version: 2017-05-25
+    sing-name: test
+    template-code-total: test
+    template-code-injection: test
+    template-code-weepage: test

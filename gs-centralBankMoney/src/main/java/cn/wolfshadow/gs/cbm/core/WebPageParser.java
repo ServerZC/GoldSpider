@@ -21,10 +21,7 @@ import org.jsoup.select.Elements;
 import org.springframework.util.StringUtils;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,7 +37,7 @@ public class WebPageParser {
 
 
     @SneakyThrows
-    public static List<WaterLog> getNewNotice(){
+    public static List<WaterLog> getNewNotice(Long lastTimeInDb){
         List<WaterLog> result = new ArrayList<>();
         String cookie = getCookie();
         if (StringUtils.isEmpty(cookie)) return result;
@@ -52,11 +49,14 @@ public class WebPageParser {
             return result;
         }
 
-        String firstNoticeUrl = getFirstNoticeUrl(listPageStr);
-        if (firstNoticeUrl == null) return result;
+        List<String> urls = getNoticeUrl(listPageStr);
+        Collections.reverse(urls);
 
-
-        result = parseNotice(firstNoticeUrl,cookie);
+        if (!urls.isEmpty()){
+            for(String url : urls){
+                result.addAll(parseNotice(url,cookie,lastTimeInDb));
+            }
+        }
 
         return result;
     }
@@ -117,10 +117,11 @@ public class WebPageParser {
     }
 
     @SneakyThrows
-    private static String getFirstNoticeUrl(String htmlStr){
+    private static List<String> getNoticeUrl(String htmlStr){
         Document document = Jsoup.parse(htmlStr);
         Elements elements = document.select("a");
         Iterator<Element> iterator = elements.iterator();
+        List<String> urls = new ArrayList<>();
         while (iterator.hasNext()){
             Element next = iterator.next();
             String href = next.attr("href");
@@ -131,14 +132,15 @@ public class WebPageParser {
             Matcher matcher = compile.matcher(href);
             if (!matcher.matches()) continue;
 
-            return href;//返回第一个可匹配的链接
+            urls.add(href);
+            //return href;//返回第一个可匹配的链接
         }
 
-        return null;
+        return urls;
     }
 
     @SneakyThrows
-    private static List<WaterLog> parseNotice(String noticeUrl, String cookie){
+    private static List<WaterLog> parseNotice(String noticeUrl, String cookie, Long lastTimeInDb){
         List<WaterLog> result = new ArrayList<>();
         //初始化HttpClient
         CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -185,6 +187,9 @@ public class WebPageParser {
             if(name!=null && name.equals("页面生成时间")){
                 String content = next.attr("content");
                 noticeTime = DateUtil.toDate(content);
+
+                if (noticeTime.getTime() <= lastTimeInDb) return result;
+
                 dateStr = DateUtil.getDateStr(noticeTime, DateUtil.YYYY_MM_DD);
                 log.info("页面生成时间： {},保存格式： {}",content,dateStr);
                 break;
@@ -247,7 +252,7 @@ public class WebPageParser {
                     WaterLog waterLog = new WaterLog();
                     waterLog.setTitle(title);
                     waterLog.setNoticeTime(noticeTime.getTime());
-                    waterLog.setDate(dateStr);
+                    waterLog.setNoticeDate(dateStr);
                     waterLog.setMethod(method);
                     content = contentBuffer.toString();
                     waterLog.setContent(content);
@@ -283,8 +288,10 @@ public class WebPageParser {
                 day *= 30;
             }
             Date endDate = DateUtil.add(noticeTime, day);
+            waterLog.setEndTime(endDate.getTime());
             waterLog.setEndDate(DateUtil.getDateStr(endDate,DateUtil.YYYY_MM_DD));
             waterLog.setTimeLimit(text);
+            waterLog.setCreateTime(new Date());
         }else {
             waterLog.setInterestRate(text);
         }

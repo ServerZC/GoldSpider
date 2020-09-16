@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Data
 public class JobManager {
 
-    private String cron = "* 0/10 9 ? * 2-6 *";
+    private String cron = "* 22 9 ? * 2-6 *";
 
 
     @Bean

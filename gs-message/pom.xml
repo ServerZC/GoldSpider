@@ -9,24 +9,24 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>gs-centralBankMoney</artifactId>
-    <name>【央行资金】</name>
-    <description>央行资金出入股票市场的数据分析</description>
+    <artifactId>gs-message</artifactId>
+    <name>【消息模块】</name>
+    <description>消息模块：发送短信/邮件等</description>
 
     <properties>
-        <gs.version>1.0-SNAPSHOT</gs.version>
+
     </properties>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/com.aliyun/aliyun-java-sdk-core -->
         <dependency>
-            <groupId>cn.wolfshadow</groupId>
-            <artifactId>gs-common</artifactId>
-            <version>${gs.version}</version>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-core</artifactId>
+            <!--<version>4.5.8</version>-->
         </dependency>
         <dependency>
-            <groupId>cn.wolfshadow</groupId>
-            <artifactId>gs-message</artifactId>
-            <version>${gs.version}</version>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-sms</artifactId>
         </dependency>
 
     </dependencies>

@@ -1,0 +1,7 @@
+cn:
+  wolfshadow:
+    system:
+      manager:
+        id: 10000000
+        name: 0.1个小目标
+        role: root

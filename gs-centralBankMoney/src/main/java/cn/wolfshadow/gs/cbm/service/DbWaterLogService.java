@@ -13,4 +13,10 @@ public interface DbWaterLogService extends DbOperable<WaterLog> {
     WaterLog saveNotice(String title, String noticeTime, int water, int method, String timeLimit, String interestRate, String content);
 
     WaterLog getNewestOne();
+
+    int sumWaterNow(long now);
+
+    List<WaterLog> listTodayNotice(String dateStr);
+
+    List<WaterLog> listTodayExpireNotice(String dateStr);
 }
