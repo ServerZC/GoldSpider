@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="error">
     <properties>
-        <property name="log_home">D:/logs/gold_spider</property>
+        <!--<property name="log_home">D:/logs/gold_spider</property>-->
+        <property name="log_home">/logs/gold_spider</property>
         <property name="default_layout">%d{HH:mm:ss.SSS} [%t] [%-5level] %c lineNo:%L method:%M -- %msg%xEx%n</property>
 
     </properties>

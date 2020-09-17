@@ -5,6 +5,7 @@ import cn.wolfshadow.gs.cbm.service.DbWaterLogService;
 import cn.wolfshadow.gs.cbm.service.SmsService;
 import cn.wolfshadow.gs.common.entity.WaterLog;
 import cn.wolfshadow.gs.common.util.DateUtil;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -38,6 +39,7 @@ public class DailyJob extends QuartzJobBean {
         log.info("ExcelCleanJob task started, trigger group={}, name={}",group,name);
     }
 
+    @SneakyThrows
     private void startJob(){
         //当天已经读取过的公告忽略
         Calendar instance = Calendar.getInstance();
@@ -111,7 +113,8 @@ public class DailyJob extends QuartzJobBean {
         // 计算市场上的总资金
         int total = waterLogService.sumWaterNow(now);
         //log.info("水量：{}",total);
-        //发短信
+        //发短信：1分钟内短信发送条数不超过1条（阿里云个人用户被限制）
+        Thread.sleep(70 * 1000);
         smsService.sendMessageTotal(total);
 
 

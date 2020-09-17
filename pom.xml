@@ -29,6 +29,7 @@
     </modules>
 
     <properties>
+        <mainClass></mainClass>
         <!-- 指定jdk版本 -->
         <java.version>1.8</java.version>
         <!-- druid连接池版本 -->
@@ -259,15 +260,8 @@
     </dependencyManagement>
 
 
-    <!-- spring boot打包插件，主要将spring boot应用打包成jar文件或者war文件 -->
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+
+
 
 
 </project>

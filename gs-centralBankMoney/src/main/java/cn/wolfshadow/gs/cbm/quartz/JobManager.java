@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Data
 public class JobManager {
 
-    private String cron = "* 22 9 ? * 2-6 *";
+    private String cron = "* 25 9 ? * 2-6 *";
 
 
     @Bean
@@ -25,8 +25,7 @@ public class JobManager {
     @Bean
     public Trigger buildTrigger(){
 
-        cron = "* 0/10 * ? * 2-6 *";
-        cron = "0/30 * * ? * 2-6 *";
+        //cron = "0/30 * * ? * 2-6 *";
 
         CronScheduleBuilder builder = CronScheduleBuilder.cronSchedule(cron);
 

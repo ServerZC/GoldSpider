@@ -31,5 +31,16 @@
 
     </dependencies>
 
-
+    <!-- spring boot打包插件，主要将spring boot应用打包成jar文件或者war文件 -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>cn.wolfshadow.gs.cbm.CbmApplication</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

@@ -1,6 +1,7 @@
-package cn.wolfshadow.gs.cleaner.test;
+package cn.wolfshadow.gs.cbm.test;
 
-import cn.wolfshadow.gs.cleaner.service.DbWaterLogService;
+
+import cn.wolfshadow.gs.cbm.service.DbWaterLogService;
 import cn.wolfshadow.gs.common.entity.WaterLog;
 import cn.wolfshadow.gs.common.exception.NumberConvertException;
 import cn.wolfshadow.gs.common.util.DateUtil;
@@ -61,7 +62,7 @@ public class WaterDataTest {
         String cid = "c882cba8132c626ed9de2175460a9aef681527d8d46042866df435a4ca620fc6e8fc43f0644c02d910d4c6462f8ce93935843ba62d42bf71b651ad57c1f39ef3d6699ee5757e4f3cadcd9b07f8be9eb0";
         String cookie = getCookie();
         System.err.println(cookie);
-        String s = httpGet(String.format(url, 1),cookie);
+        //String s = httpGet(String.format(url, 1),cookie);
         /*List<String> list = ();
         Collections.reverse(list);
         for (int i = 0; i < list.size(); i++) {
@@ -259,23 +260,13 @@ public class WaterDataTest {
         String title = document.title();
 
         log.info("title: {}",title);
-        //页面生成时间
-        Element head = document.head();
-        Elements metas = head.getElementsByTag("meta");
-        Iterator<Element> iterator = metas.iterator();
-        Date noticeTime = null;
-        String dateStr = null;
-        while (iterator.hasNext()) {
-            Element next = iterator.next();
-            String name = next.attr("name");
-            if(name!=null && name.equals("页面生成时间")){
-                String content = next.attr("content");
-                noticeTime = DateUtil.toDate(content);
-                dateStr = DateUtil.getDateStr(noticeTime, DateUtil.YYYY_MM_DD);
-                log.info("页面生成时间： {},保存格式： {}",content,dateStr);
-                break;
-            }
-        }
+        //公告时间
+        Element shijian = document.body().getElementById("shijian");
+        String timeStr = shijian.text();
+        Date noticeTime = DateUtil.toDate(timeStr);
+        String dateStr = DateUtil.getDateStr(noticeTime, DateUtil.YYYY_MM_DD);
+        log.info("公告时间： {},保存格式： {}",timeStr,dateStr);
+
         /**
          * 关键信息
          */
@@ -333,7 +324,7 @@ public class WaterDataTest {
                     WaterLog waterLog = new WaterLog();
                     waterLog.setTitle(title);
                     waterLog.setNoticeTime(noticeTime.getTime());
-                    waterLog.setDate(dateStr);
+                    waterLog.setNoticeDate(dateStr);
                     waterLog.setMethod(method);
                     content = contentBuffer.toString();
                     waterLog.setContent(content);
@@ -370,14 +361,17 @@ public class WaterDataTest {
                 day *= 30;
             }
             Date endDate = DateUtil.add(noticeTime, day);
+            waterLog.setEndTime(endDate.getTime());
             waterLog.setEndDate(DateUtil.getDateStr(endDate,DateUtil.YYYY_MM_DD));
             waterLog.setTimeLimit(text);
+            waterLog.setCreateTime(new Date());
         }else {
             waterLog.setInterestRate(text);
         }
     }
 
 }
+
 enum NumberConvertEnum{
 
     NUM_1("一",1),
