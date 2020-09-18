@@ -5,6 +5,6 @@ spring:
       host: localhost
       port: 27017
       database: gold_spider
-      username: wolfshadow
-      password: wolfshadow
+      username: localhost
+      password: localhost
 
