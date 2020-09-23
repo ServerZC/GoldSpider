@@ -36,7 +36,7 @@ public class ExcelCleanJob extends QuartzJobBean {
         TriggerKey key = trigger.getKey();
         String group = key.getGroup();
         String name = key.getName();
-        startJob();
+        //startJob();
         log.info("ExcelCleanJob task started, trigger group={}, name={}",group,name);
     }
 

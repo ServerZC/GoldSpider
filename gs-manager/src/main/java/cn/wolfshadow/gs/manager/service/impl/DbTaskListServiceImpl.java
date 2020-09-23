@@ -1,6 +1,6 @@
 package cn.wolfshadow.gs.manager.service.impl;
 
-import cn.wolfshadow.gs.common.TaskStatusEnum;
+import cn.wolfshadow.gs.common.enums.TaskStatusEnum;
 import cn.wolfshadow.gs.common.entity.TaskListEntity;
 import cn.wolfshadow.gs.common.entity.TaskStockEntity;
 import cn.wolfshadow.gs.common.entity.TaskUrlEntity;

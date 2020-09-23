@@ -20,7 +20,7 @@ import java.util.*;
 
 /**
  *
- * 单例数据清洗类，延迟加载
+ *
  */
 //@Setter
 //@Getter
@@ -65,6 +65,9 @@ public class DataCleaner {
         }
     }
 
+    public List<StockValueAnalysisEntity> cleanExcel(String directory){
+        return cleanExcel(directory,Integer.MAX_VALUE);
+    }
     public List<StockValueAnalysisEntity> cleanExcel(String directory, int max){
         List<StockValueAnalysisEntity> result = new ArrayList<>();
         //从指定目录获取文件

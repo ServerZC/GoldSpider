@@ -1,18 +1,14 @@
 package cn.wolfshadow.gs.digger.service.impl;
 
-import cn.wolfshadow.gs.common.TaskStatusEnum;
+import cn.wolfshadow.gs.common.enums.TaskStatusEnum;
 import cn.wolfshadow.gs.common.entity.TaskListEntity;
-import cn.wolfshadow.gs.common.entity.TaskUrlEntity;
 import cn.wolfshadow.gs.common.service.impl.MongoDbOperator;
 import cn.wolfshadow.gs.digger.service.DbTaskListService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.List;

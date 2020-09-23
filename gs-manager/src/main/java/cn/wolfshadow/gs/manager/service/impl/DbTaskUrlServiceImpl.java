@@ -1,18 +1,14 @@
 package cn.wolfshadow.gs.manager.service.impl;
 
-import cn.wolfshadow.gs.common.TaskStatusEnum;
-import cn.wolfshadow.gs.common.entity.TaskStockEntity;
+import cn.wolfshadow.gs.common.enums.TaskStatusEnum;
 import cn.wolfshadow.gs.common.entity.TaskUrlEntity;
 import cn.wolfshadow.gs.common.service.impl.MongoDbOperator;
-import cn.wolfshadow.gs.common.util.JsonUtil;
-import cn.wolfshadow.gs.manager.dto.TaskDraftDto;
 import cn.wolfshadow.gs.manager.service.DbTaskUrlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.List;

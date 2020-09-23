@@ -55,3 +55,19 @@ excle:
       #需要获取的关键指标
       receiveable: 应收账款(元)
 
+#优质股筛选策略
+stock:
+  strategy:
+    #普通策略：直接通过字段值来判断
+    general:
+      #营业总收入同比增长率  策略：大于20个增长点的年份超过4
+      revenueIncrease: gt 2000 3
+      #销售毛利率  策略：大于20个增长点（20%）的年份超过4
+      grossProfitMargin: gt 2000 3
+      #应收账款对营收占比  策略：小于20%的年份超过4
+      receiveableRadio: lt 2000 0
+    #特殊策略：需要通过字段计算出需要的值再进行判断
+    special:
+      #研发费用增长  策略：增长大于0的年份超过4
+      researchFeeIncrease: gt 0 2
+

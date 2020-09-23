@@ -1,4 +1,4 @@
-package cn.wolfshadow.gs.common;
+package cn.wolfshadow.gs.common.enums;
 
 public enum TaskStatusEnum {
     /**
